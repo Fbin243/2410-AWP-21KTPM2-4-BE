@@ -28,7 +28,7 @@ export class AuthService {
     password: string,
   ): Promise<{ id: string; email: string; access_token: string }> {
     const user = await this.usersService.findOne(email);
-    if (!user && !(await bcrypt.compare(password, user.password))) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Login failed. Check your credentials');
     }
     const payload = { sub: user._id, email: user.email };
