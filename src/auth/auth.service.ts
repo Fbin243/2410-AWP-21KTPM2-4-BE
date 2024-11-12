@@ -38,4 +38,12 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  async getProfile(email: string): Promise<{ id: string; email: string }> {
+    const user = await this.usersService.findOne(email);
+    return {
+      id: user._id,
+      email: user.email,
+    };
+  }
 }
